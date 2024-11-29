@@ -1,48 +1,44 @@
-\documentclass[xcolor={x11names},10pt]{beamer}
+\documentclass[10pt,xcolor={x11names}]{beamer}
 
-\usetheme{metropolis}
-\metroset{numbering=fraction}
-\metroset{block=fill}
+\usetheme[numbering=fraction,block=fill]{metropolis}
+\usecolortheme{seahorse}
+\setbeamertemplate{blocks}[rounded]
 
-\newcommand{\backupbegin}{
-  \newcounter{finalframe}
-  \setcounter{finalframe}{\value{framenumber}}
-}
-\newcommand{\backupend}{
-  \setcounter{framenumber}{\value{finalframe}}
-}
-
-\usepackage{headings/kmath}
+\usepackage{kmath}
 \input{headings/packages}
 \input{headings/macros}
 
+% Colors
+\definecolor{Brown}{HTML}{EB811B}
+\definecolor{Teal}{HTML}{137D91}
+\definecolor{Red}{HTML}{C8412F}
+\definecolor{Green}{HTML}{14B03D}
+
+% Beamer elements
+\newcommand{\emphcolor}[2]{{\color{#1}#2}}
 \newenvironment<>{blockcolor}[2]{%
   \setbeamercolor{block title}{fg=#1,bg=#1!15}%
   \setbeamercolor{block body}{fg=#1,bg=#1!15}%
-  \begin{block}#3{\centering#2}
-}{%
-  \end{block}
-}
+  \begin{block}#3{\centering#2\par}}{\end{block}}
 
-\definecolor{TolLightWhite}{HTML}{FAFAFA}
-\definecolor{TolLightOrange}{HTML}{ECA244}
+\title{Tutorial \\ \normalsize{Solving L${}_0$-norm Problems via Mixed-Integer Optimization}}
+\date{Simsmart team, Inria Rennes, France \\ 
+Applied Mathematics Department, Insa Rennes, France}
+\author{\textbf{Théo Guyard}}
+\institute{MIND and SODA team seminar \\ October 10th, 2023 \\ Inria Paris Saclay, France}
+
 
 \begin{document}
 
-\begin{frame}[plain,noframenumbering]
-  \begin{center}
-    {\large\textbf{Slides Template}}
-  \end{center}
-  \begin{center}
-    Théo Guyard
-  \end{center}
-\end{frame}
+\maketitle
 
-% Main slides
-
-% \backupbegin
-% Supplementary slides
-% \backupend
-
+\input{pages/sparse}
+\input{pages/mio}
+\input{pages/specialized}
+\input{pages/numerics}
+\input{pages/research}
+\input{pages/takehome}
+\input{pages/questions}
+\input{pages/supplementary}
 
 \end{document}

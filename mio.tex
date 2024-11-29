@@ -1,0 +1,129 @@
+\section{Mixed-Integer Optimization}
+
+\begin{frame}{Handeling the L0-norm with MIO tools}
+    \begin{tikzpicture}[remember picture,overlay]
+        \onslide<+-> {
+            \node[text width=0.4\textwidth] at ($(current page.north)+(0,-0.21\textheight)$) (problem) {
+                \begin{blockcolor}{Brown}{Problem}
+                    \centering
+                    $\min_{\pv} \lossfunc(\pv) + \reg \norm{\pv}{0}$
+                \end{blockcolor}
+            };
+            %
+            \node[text width=0.2\textwidth] at ($(current page.north)+(0,-0.45\textheight)$) (solution) {
+                \begin{blockcolor}{black}{}
+                    \centering
+                    \textbf{Solution}
+                \end{blockcolor}
+            };
+            %
+            \draw[ultra thick,->] (problem) -- ($(solution)+(0,0.15)$) node[midway,fill=white,draw] {Solver};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \draw[ultra thick,<-] (problem.south east) .. controls ($(problem.south east)+(1,-0.25)$) .. ($(problem.south east)+(1,-0.5)$) node[below,font=\scriptsize,align=center,text width=0.3\textwidth] {Non-linear, non-convex, \\ non-smooth, NP-hard, ...};
+            \node at ($(problem.south east)+(1,-1.5)$) {
+                \includegraphics[width=15pt]{imgs/dizzy.png}
+            };  
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[text width=0.325\textwidth, font=\small,align=center] at ($(current page.north)+(-4.25,-0.75\textheight)$) (l0norm) {The $\ell_0$-norm \emphcolor{Brown}{counts} the number of non-zeros \\ $\norm{\pv}{0} =
+            \mathrm{card}(\kset{\idxentry}{\pvi{\idxentry} \neq 0})$};
+            %
+            \node[text width=0.4\textwidth, font=\small,align=center] at ($(current page.north)+(0,-0.75\textheight)$) (binary) {It sums the entries of the \emphcolor{Brown}{binary} vector $\bv$ satisfying some logical relation with $\pv$};
+            \draw[ultra thick,->] ($(l0norm.south east)+(-0.5,-0.25)$) .. controls ($(current page.north)+(-2.25,-0.9\textheight)$) .. ($(binary.south west)+(0.5,-0.25)$);
+            %
+            \node[text width=0.325\textwidth, font=\small,align=center] at ($(current page.north)+(4.25,-0.75\textheight)$) (mio) {We have tools to deal with such binary vectors in \emphcolor{Brown}{MIO} !};
+            \draw[ultra thick,->] ($(binary.south east)+(-0.5,-0.25)$) .. controls ($(current page.north)+(2.25,-0.9\textheight)$) .. ($(mio.south west)+(0.5,-0.25)$);
+        }
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Problem formulation}
+    \begin{tikzpicture}[remember picture,overlay]
+        \onslide<+-> {
+            \node[text width=1.1\textwidth] at ($(current page.north)+(0,-0.2\textheight)$) (modelling) {
+                \begin{block}{Linearizing the $\ell_0$-norm}
+                    Let $\pv \in \kR^{\pdim}$ and $\bv \in \text{B}^{\pdim}$ such that $\emphcolor{Brown}{\pvi{\idxentry} = 0 \iff \bvi{\idxentry} = 0}$, then $\norm{\pv}{0} = \transp{\1}\bv$.
+                \end{block}
+            };
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[text width=0.5\textwidth,align=center] at ($(current page.north)+(0,-0.35\textheight)$) (problem) {$\min_{\pv,\bv} \lossfunc(\pv) + \reg \emphcolor{Brown}{\transp{\1}\bv} + \emphcolor{Brown}{\pertfunc(\pv,\bv)}$};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[text width=0.5\textwidth,align=center] at ($(problem)+(-3,-0.25\textheight)$) (bigm) {
+            $
+                \left\{
+                \begin{array}{rl}
+                    \min_{\pv,\bv} & \lossfunc(\pv) + \reg \emphcolor{Brown}{\transp{\1}\bv} \\ 
+                    \text{s.t.} & \emphcolor{Brown}{-\bigM\bv \leq \pv \leq \bigM\bv} \\ & \pv \in \kR^{\pdim}, \ \bv \in \text{B}^{\pdim}
+                \end{array}
+                \right.
+            $
+            };
+            \draw[ultra thick,->] (problem) -- ($(bigm)+(0,0.8)$) node[midway,fill=white,draw] {Big-M};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[text width=0.5\textwidth,align=center] at ($(problem)+(3,-0.25\textheight)$) (twonorm) {
+            $
+                \left\{
+                \begin{array}{rl}
+                    \min_{\pv,\bv} & \lossfunc(\pv) + \reg \emphcolor{Brown}{\transp{\1}\bv} + \emphcolor{Brown}{\tfrac{\sigma}{2}\sum_{\idxentry} \tfrac{\pvi{\idxentry}^2}{\bvi{\idxentry}}} \\ 
+                    \text{s.t.} & \pv \in \kR^{\pdim}, \ \bv \in \text{B}^{\pdim}
+                \end{array}
+                \right.
+            $
+            };
+            \draw[ultra thick,->] (problem) -- ($(twonorm)+(0,0.8)$) node[midway,fill=white,draw] {L2-norm};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[text width=0.45\textwidth,align=center] at ($(current page.north)+(-3,-0.85\textheight)$) (pros) {
+                \begin{blockcolor}{Green}{Pros}
+                    \begin{itemize}[nosep,leftmargin=15pt]
+                        \item[\ding{51}] Fit the MIP formalism
+                        \item[\ding{51}] Available tools and methods
+                        \item[\ding{51}] Tailored solvers
+                    \end{itemize}
+                \end{blockcolor}
+            };
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[text width=0.45\textwidth,align=center] at ($(current page.north)+(3,-0.85\textheight)$) (cons) {
+                \begin{blockcolor}{red}{Cons}
+                    \begin{itemize}[nosep,leftmargin=15pt]
+                        \item[\ding{55}] Mostly commercial solvers
+                        \item[\ding{55}] Unable to exploit sparsity
+                        \item[\ding{55}] Not numerically efficient
+                    \end{itemize}
+                \end{blockcolor}
+            };
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[text width=2\textwidth,align=center] at ($(current page.north)+(0,-1.05\textheight)$) (need) {\textbf{We need specialized methods able to exploit the structure !}};
+        }
+    \end{tikzpicture}
+\end{frame}

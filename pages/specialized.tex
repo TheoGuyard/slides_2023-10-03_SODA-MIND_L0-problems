@@ -1,0 +1,302 @@
+\section{Specialized Solution Methods}
+
+\begin{frame}{Branch-and-Bound algorithms}
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[align=center,text width=0.9\textwidth] (concept) at ($(current page.north)+(0,-0.2\textwidth)$) {\textbf{Branch-and-Bound} \\ \textit{``Enumerate all candidate solutions and discard sub-optimal ones.''}};
+        %
+        %
+        %
+        \node (path0) at ($(current page.north)+(1.5,-3.5)$) {};
+        \node (path1) at ($(path0)+(2,0)$) {};
+        \node (path2) at ($(path0)+(3,-1)$) {};
+        \node (path3) at ($(path0)+(2,-3)$) {};
+        \node (path4) at ($(path0)+(1,-1.5)$) {};
+        \node (path5) at ($(path0)+(0,-1)$) {};
+        \path[ultra thick,draw,use Hobby shortcut,closed=true] (path0)..(path1)..(path2)..(path3)..(path4)..(path5);
+        %
+        %
+        %
+        \node at ($(path0)+(2,-0.75)$) {\Large{$\bullet$}};
+        \node at ($(path0)+(1,-0.75)$) {\Large{$\bullet$}};
+        \node at ($(path0)+(2.75,-2)$) {\Large{$\bullet$}};
+        \node at ($(path0)+(1.75,-2)$) {\Large{$\bullet$}};
+        %
+        %
+        %
+        \draw[ultra thick,dashed] (path2) -- (path4);
+        %
+        %
+        %
+        \draw[ultra thick,dashed] ($(path4)+(0.75,0.2)$)-- ($(path1)+(-1,0.4)$);
+        \draw[ultra thick,dashed] ($(path4)+(1,0.2)$) -- ($(path3)+(0.5,0)$);
+        %
+        %
+        %
+        \node (N3cross) at ($(path0)+(1,-0.75)$) {\textcolor{purple}{\LARGE\ding{55}}}; 
+        \node (N5cross) at ($(path0)+(1.75,-2)$) {\textcolor{purple}{\LARGE\ding{55}}}; 
+        \node (N6cross) at ($(path0)+(2.75,-2)$) {\textcolor{purple}{\LARGE\ding{55}}}; 
+        %
+        %
+        %
+        \node[text width=\textwidth] (principles1) at ($(current page.north)+(2,-0.65\textwidth)$) {
+            \textbf{\hspace*{-1.5cm}Main principles}
+            \begin{itemize}
+                \item[Branching:] Divide the search space
+                \item[Bounding:] Test whether a region can contain optimal solutions 
+                \item[Pruning:] Discard regions without optimal solutions
+            \end{itemize}
+        };
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Tree exploration}
+    \begin{tikzpicture}[remember picture,overlay]
+        \onslide<+-> {
+            \node at ($(current page.north)+(0,-0.45\textheight)$) (node0) {};
+            \draw[
+                ultra thick,
+                top color = white,
+                bottom color = blue!30,
+            ] (node0) circle (15pt) node {\Large$N_0$};
+            %
+            \node at ($(node0)+(-3,-1.5)$) (node1) {};
+            \draw[
+                ultra thick,
+                top color = white,
+                bottom color = blue!30,
+            ] (node1) circle (15pt) node {\Large$N_1$};
+            \draw[ultra thick,->] ($(node0.south west)+(-0.25,-0.25)$) -- ($(node1.north east)+(0.25,0.25)$) node[midway,fill=white,draw,font=\scriptsize] {$\bvi{1} = 0$};
+            %
+            \node at ($(node0)+(3,-1.5)$) (node2) {};
+            \draw[
+                ultra thick,
+                top color = white,
+                bottom color = blue!30,
+            ] (node2) circle (15pt) node {\Large$N_2$};
+            \draw[ultra thick,->] ($(node0.south east)+(0.25,-0.25)$) -- ($(node2.north west)+(-0.25,0.25)$) node[midway,fill=white,draw,font=\scriptsize] {$\bvi{1} = 1$};
+            %
+            \node at ($(node1)+(-1,-2)$) (node3) {};
+            \draw[
+                ultra thick,
+                top color = white,
+                bottom color = blue!30,
+            ] (node3) circle (15pt) node {\Large$N_3$};
+            \draw[ultra thick,->] ($(node1.south west)+(-0.25,-0.25)$) -- ($(node3.north)+(0.25,0.35)$) node[midway,fill=white,draw,font=\scriptsize] {$\bvi{2} = 0$};
+            %
+            \node at ($(node1)+(1,-2)$) (node4) {};
+            \draw[
+                ultra thick,
+                top color = white,
+                bottom color = blue!30,
+            ] (node4) circle (15pt) node {\Large$N_4$};
+            \draw[ultra thick,->] ($(node1.south east)+(0.25,-0.25)$) -- ($(node4.north)+(-0.25,0.35)$) node[midway,fill=white,draw,font=\scriptsize] {$\bvi{2} = 1$};
+            %
+            %
+            %
+            \node at ($(node2)+(-1,-2)$) (node5) {};
+            \draw[
+                ultra thick,
+                top color = white,
+                bottom color = blue!30,
+            ] (node5) circle (15pt) node {\Large$N_5$};
+            \draw[ultra thick,->] ($(node2.south west)+(-0.25,-0.25)$) -- ($(node5.north)+(0.25,0.35)$) node[midway,fill=white,draw,font=\scriptsize] {$\bvi{2} = 0$};
+            \node at ($(node2)+(1,-2)$) (node6) {};
+            \draw[
+                ultra thick,
+                top color = white,
+                bottom color = blue!30,
+            ] (node6) circle (15pt) node {\Large$N_6$};
+            \draw[ultra thick,->] ($(node2.south east)+(0.25,-0.25)$) -- ($(node6.north)+(-0.25,0.35)$) node[midway,fill=white,draw,font=\scriptsize] {$\bvi{2} = 1$};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[align=center,text width=0.41\textwidth,font=\small] (observation0) at ($(current page.north)+(-3.7,-2.2)$) {
+                \begin{blockcolor}{black}{Observation}
+                    If \emphcolor{Brown}{$\bv$ is fixed}, then \\
+                    $\quad\min_{\pv,\bv} \lossfunc(\pv) + \reg\transp{1}\bv + \pertfunc(\pv,\bv)$ \\
+                    is fairly easy to solve.
+                \end{blockcolor}
+            };
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[font=\scriptsize,align=left] at ($(node0)+(1,0)$) (pb0) {\emphcolor{Green}{$\texttt{lb} = 1$} \\ \emphcolor{Brown}{$\texttt{ub} = 5$}};
+            %
+            \node[font=\scriptsize,align=left] at ($(node1)+(-1.1,0)$) (pb1) {\emphcolor{Green}{$\texttt{lb} = 1.5$} \\ \emphcolor{Brown}{$\texttt{ub} = 4.5$}};
+            %
+            \node[font=\scriptsize,align=left] at ($(node3)+(-1.1,0)$) (pb3) {\emphcolor{Green}{$\texttt{lb} = 2$} \\ \emphcolor{Brown}{$\texttt{ub} = 4.5$}};
+            %
+            \node[font=\scriptsize,align=left] at ($(node4)+(1.1,0)$) (pb4) {\emphcolor{Green}{$\texttt{lb} = 2.5$} \\ \emphcolor{Brown}{$\texttt{ub} = 3$}};
+            %
+            \node[font=\scriptsize,align=left] at ($(node2)+(1.1,0)$) (pb2) {\emphcolor{Green}{$\texttt{lb} = 2$} \\ \emphcolor{Brown}{$\texttt{ub} = 4.5$}};
+            %
+            \node[font=\scriptsize,align=left] at ($(node5)+(-1.1,0)$) (pb5) {\emphcolor{Green}{$\texttt{lb} = 3.5$} \\ \emphcolor{Brown}{$\texttt{ub} = 4$}};
+            %
+            \node[font=\scriptsize,align=left] at ($(node6)+(1.1,0)$) (pb6) {\emphcolor{Green}{$\texttt{lb} = 4$} \\ \emphcolor{Brown}{$\texttt{ub} = 4.5$}};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \draw[ultra thick,-{Circle[scale=0.5]}] ($(node5.south)+(0,-0.4)$) -- ($(node5.south)+(0,-0.6)$);
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \draw[ultra thick,->] ($(node4.south east)+(0.25,-0.25)$) -- ($(node4.south east)+(0.5,-0.5)$);
+            \draw[ultra thick,->] ($(node4.south west)+(-0.25,-0.25)$) -- ($(node4.south west)+(-0.5,-0.5)$);
+            \draw[ultra thick,->] ($(node3.south east)+(0.25,-0.25)$) -- ($(node3.south east)+(0.5,-0.5)$);
+            \draw[ultra thick,->] ($(node3.south west)+(-0.25,-0.25)$) -- ($(node3.south west)+(-0.5,-0.5)$);
+            \draw[ultra thick,-{Circle[scale=0.5]}] ($(node6.south)+(0,-0.4)$) -- ($(node6.south)+(0,-0.6)$);
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[align=center] (convcrit) at ($(current page.north)+(-2,-1.05\textheight)$) {\small{All nodes explored or pruned}};
+            \node[align=center] (convres) at ($(convcrit)+(4,0)$) {\small{Problem solved}};
+            \draw[ultra thick,->] (convcrit.east) -- (convres.west);
+        }
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Node processing}
+    \begin{tikzpicture}[remember picture,overlay]
+        \onslide<+-> {
+            \node at ($(current page.north)+(-5,-0.325\textheight)$) (node) {};
+            \draw[
+                ultra thick,
+                top color = white,
+                bottom color = blue!30,
+            ] (node) circle (15pt) node {\Large$\nodeSymbIter{}_k$};
+            \draw[ultra thick,->] ($(node.north)+(0,0.75)$) -- ($(node.north)+(0,0.4)$);
+            \node at ($(node.south)+(0,-0.75)$) (nodesets) {$(\setzero,\setone)$};
+            %
+            \node[align=center,text width=0.7\textwidth,font=\small] (nodeproblem) at ($(current page.north)+(0,-0.3\textheight)$) {
+                \begin{blockcolor}{black}{Node problem}
+                    The problem at node \emphcolor{Brown}{$\nodeSymb = (\setzero,\setone)$} where $\setzero$ and $\setone$ are the indices of $\bv$ fixed to \emphcolor{Brown}{zero} and \emphcolor{Brown}{one} reads
+                    \begin{center}
+                        $\node{\pobj} = \begin{cases}
+                            \min_{\pv,\bv} &\lossfunc(\pv) + \reg\transp{1}\bv + \pertfunc(\pv,\bv) \\
+                            \text{s.t.} &\emphcolor{Brown}{\bv_{\setzero} = \0, \ \bv_{\setone} = \1} 
+                        \end{cases}$
+                    \end{center}
+                \end{blockcolor}
+            };
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[align=center,text width=0.5\linewidth] (ub) at ($(nodeproblem.south)+(0,-0.05\textwidth)$) {Find some lower bound on $\node{\pobj}$ \\~Find some upper bound on $\node{\pobj}$};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[align=left,text width=\linewidth] (ub) at ($(current page.north)+(0,-0.625\textwidth)$) {\textbf{Upper bounding} \\ $\qquad\bullet$ We just need a \emphcolor{Brown}{feasible} solution \\ $\qquad\bullet$ Fix entries that are still free to zero \\ $\qquad\bullet$ Optimize the resulting problem};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[align=center,text width=0.5\textwidth,font=\small] (ubproblem) at ($(current page.north)+(0,-0.975\textheight)$) {
+                \begin{blockcolor}{Brown}{Upper-bounding problem}
+                    \begin{center}
+                        $\min_{\pv} \ \lossfunc(\pv_{\setone}) + \reg\card{\setone} + \pertfunc(\pv_{\setone},\1)$
+                    \end{center}
+                \end{blockcolor}
+            };
+            %
+            \draw[ultra thick,<-,Brown] ($(ubproblem.east)+(0.1,-0.1)$) .. controls ($(ubproblem.east)+(0.75,0.1)$) .. ($(ubproblem.east)+(1,0.5)$) node (easy) [font=\small,above] {Easy to solve};
+            \node at ($(easy.east)+(0.3,0)$) {\includegraphics[width=0.05\textwidth]{imgs/nerd_face.png}};
+        }
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Lower bounding}
+    \begin{tikzpicture}[remember picture,overlay]
+        \onslide<+-> {
+            \node[anchor=west] (objective) at ($(current page.north)+(-5.5,-1.5)$) {\textbf{Idea:} 
+            Convexify a \emphcolor{Brown}{part} of the objective function};
+            %
+            %
+            %
+            \node[text width=.55\textwidth] at ($(current page.north)+(0,-0.35\textheight)$) (pertnodeproblem) {
+                \begin{blockcolor}{black}{Node problem}
+                    \centering
+                    \small
+                    $\node{\pobj} = 
+                        \left\{
+                        \begin{array}{rl}
+                            \min_{\pv,\bv} & \lossfunc(\pv) + \emphcolor{Brown}{\reg \transp{\1}\bv + \pertfunc(\pv,\bv)} \\
+                            \text{s.t.} & \emphcolor{Brown}{\subzero{\bv} = \0, \ \subone{\bv} = \1}
+                        \end{array}
+                        \right.
+                    $
+                \end{blockcolor}
+            };
+            %
+            \draw[ultra thick,<-] ($(pertnodeproblem.east)+(0.1,-0.1)$) .. controls ($(pertnodeproblem.east)+(0.75,-0.1)$) .. ($(pertnodeproblem.east)+(1.5,-0.5)$) node[font=\small,below] {$\min_{\pv,\bv} \lossfunc(\pv) + \emphcolor{Brown}{\regfunc(\pv,\bv)}$};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[text width=.44\textwidth] at ($(pertnodeproblem.south)+(0,-0.3\textwidth)$) (pertlbproblem) {
+                \begin{blockcolor}{Brown}{Lower-bounding problem}
+                    \centering
+                    $\min_{\pv} \lossfunc(\pv) + \biconj{\regfunc}(\pv)$
+                \end{blockcolor}
+            };
+            %
+            \draw[ultra thick,->] ($(pertnodeproblem.south)+(0,0)$) -- ($(pertlbproblem.north)+(0,-0.3)$) node[midway,draw,fill=white,font=\small] (pertnodeproblemtext) {Bi-conjugacy $\biconj{\regfunc}(\pv) \leq \regfunc(\pv,\bv)$};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[font=\small] (solution) at ($(pertnodeproblemtext)+(4.5,-0.075\textwidth)$) {\textbf{Closed-form expression}};
+            \node at ($(solution)+(0,-0.75)$) {
+                \includegraphics[width=20pt]{imgs/party.png}
+            };
+        }
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Let's sum up !}
+    \begin{tikzpicture}[remember picture,overlay]
+        \node [text width=.4\textwidth] at ($(current page.north)+(0,-0.25\textheight)$) (problem) {
+            \begin{blockcolor}{Brown}{$\ell_0$-penalized problem}
+                \centering
+                $\min_{\pv} \ \lossfunc(\pv) + \reg \norm{\pv}{0}$
+            \end{blockcolor}
+        };
+        \node [text width=1.1\textwidth] at ($(current page.north)+(0,-0.7\textheight)$) (observations) {
+            \begin{itemize}[label=$\blacktriangleright$]
+                \item Linking function \emphcolor{Brown}{$\pertfunc(\pv,\bv)$} to \emphcolor{Brown}{linearize the $\ell_0$-norm} and fit the \emphcolor{Brown}{MIP formalism}
+                \begin{itemize}[label=$\bullet$]
+                    \item Big-M and L2-norm strategies
+                \end{itemize}
+                \item Generic solvers
+                \begin{itemize}[label=$\bullet$]
+                    \item Easy solution to implement
+                    \item Unable to exploit sparsity
+                    \item Numerically inefficient
+                \end{itemize}
+                \item Specialized Branch-and-Bound 
+                \begin{itemize}[label=$\bullet$]
+                    \item Tree exploration
+                    \item Branch by fixing entries in $\bv$
+                    \item Compute upper and lower bounds at each node
+                    \item Leverage bi-conjugacy to compute lower bounds
+                \end{itemize}
+            \end{itemize}
+        };
+    \end{tikzpicture}
+\end{frame}

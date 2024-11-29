@@ -203,11 +203,6 @@
 \DeclareDocumentCommand\kP{}{\k@ensuremath{%
   \k@boldset{P}%
 }}
-% binaries
-\DeclareDocumentCommand\kB{s}{\k@ensuremath{%
-  \k@boldset{B}%
-  \IfBooleanTF{#1}{\k@starpos{*}}{}%
-}}
 % natural integers
 \DeclareDocumentCommand\kN{s}{\k@ensuremath{%
   \k@boldset{N}%

@@ -1,0 +1,64 @@
+\section{Overview of Numerical Performances}
+
+\begin{frame}{Overview of numerical performances}
+    \begin{tikzpicture}[remember picture,overlay]
+        \node [text width=.425\textwidth] at ($(current page.north)+(0,-0.175\textheight)$) (problem) {
+            \begin{blockcolor}{black}{}
+                \centering
+                \small
+                $\min_{\pv} \ \lossfunc(\pv) + \reg \transp{\1}\bv + \pertfunc(\pv,\bv)$
+            \end{blockcolor}
+        };
+        %
+        %
+        %
+        \node [text width=.7\textwidth] at ($(current page.north)+(2.3,-0.34\textheight)$) (data) {
+          \begin{itemize}[nosep]
+            \item[\textbf{Dataset}] : Sparse regression
+            \item[\textbf{F($\cdot$)}] : Least-squares loss
+            \item[\textbf{H($\cdot,\cdot$)}] : Big-M constraints
+            \item[$\boldsymbol{\lambda}$] : Set statistically
+          \end{itemize}
+        };
+        \begin{scope}[shift={(0.75,-3)}]
+        \begin{axis}[
+            mlineplot,
+            width = 0.6\textwidth,
+            height = 5cm,
+            xmode = log,
+            xmin = 0.05,
+            xmax = 5000,
+            ymax = 1.1,
+            xlabel = Time (seconds),
+            ylabel =  Prop. solved within 1h,
+            legend style={at={(1.03,0.5)},anchor=west}
+        ]
+
+        \addplot[ultra thick, smooth, color=RoyalBlue2] %
+        table[x=times,y=Scip,col sep=comma]{data/perfprofiles_medium_Leastsquares_Bigm_3600.csv};
+        \addlegendentry{Scip};
+
+        \addplot[ultra thick, smooth, color=SkyBlue2] %
+        table[x=times,y=Cplex,col sep=comma]{data/perfprofiles_medium_Leastsquares_Bigm_3600.csv};
+        \addlegendentry{Cplex};
+
+        \addplot[ultra thick, smooth, color=PaleGreen3] %
+        table[x=times,y=Mosek,col sep=comma]{data/perfprofiles_medium_Leastsquares_Bigm_3600.csv};
+        \addlegendentry{Mosek};
+
+        \addplot[ultra thick, smooth, color=DarkGoldenrod1] %
+        table[x=times,y=L0Bnb,col sep=comma]{data/perfprofiles_medium_Leastsquares_Bigm_3600.csv};
+        \addlegendentry{L0Bnb (Hazimeh et al., 2022)};
+
+
+        \addplot[ultra thick, smooth, color=OrangeRed1] %
+        table[x=times,y=SBnb,col sep=comma]{data/perfprofiles_medium_Leastsquares_Bigm_3600.csv};
+        \addlegendentry{SBnb (Bourguignon et al., 2022)};
+
+        \addplot[ultra thick, smooth, color=Firebrick4] %
+        table[x=times,y=El0ps,col sep=comma]{data/perfprofiles_medium_Leastsquares_Bigm_3600.csv};
+        \addlegendentry{El0ps (Guyard et al., 2023)};
+        \end{axis}
+        \end{scope}
+      \end{tikzpicture}
+\end{frame}

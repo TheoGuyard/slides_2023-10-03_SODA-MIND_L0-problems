@@ -1,0 +1,290 @@
+\section{Supplementary Slides}
+
+\begin{frame}[noframenumbering]{Lower bounding}
+    \begin{tikzpicture}[remember picture,overlay]
+        \onslide<+-> {
+            \node at ($(current page.north)+(-4.5,-0.325\textheight)$) (node) {};
+            \draw[
+                ultra thick,
+                top color = white,
+                bottom color = blue!30,
+            ] (node) circle (15pt) node {\Large$\nodeSymbIter{}_k$};
+            \draw[ultra thick,->] ($(node.north)+(0,0.75)$) -- ($(node.north)+(0,0.4)$);
+            \node at ($(node.south)+(0,-0.75)$) (nodesets) {$(\setzero,\setone)$};
+            %
+            \node[text width=.5\textwidth] at ($(current page.north)+(0,-0.3\textheight)$) (nodeproblem) {
+                \begin{blockcolor}{black}{Node problem}
+                    \centering
+                    \small
+                    $\node{\pobj} = 
+                        \left\{
+                        \begin{array}{rl}
+                            \min & \lossfunc(\pv) + \reg \transp{1}\bv + \pertfunc(\pv,\bv) \\
+                            \text{s.t.} & \subzero{\bv} = \0, \ \subone{\bv} = \1
+                        \end{array}
+                        \right.
+                    $
+                \end{blockcolor}
+            };
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \draw[ultra thick,<-] ($(nodeproblem.east)+(0.1,-0.1)$) .. controls ($(nodeproblem.east)+(0.75,-0.1)$) .. ($(nodeproblem.east)+(1,-0.5)$) node[font=\small,below] {$\min_{\pv,\bv} \pfunc(\pv,\bv)$};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[text width=.44\textwidth] at ($(nodeproblem.south)+(0,-0.15\textwidth)$) (lbproblem) {
+                \begin{blockcolor}{Brown}{Lower-bounding problem}
+                    \centering
+                    $\node{\LB{\pobj}} = \min_{\pv,\bv} \biconj{\pfunc}(\pv,\bv)$
+                \end{blockcolor}
+            };
+            %
+            \draw[ultra thick,->] ($(nodeproblem.south)+(0,0)$) -- ($(lbproblem.north)+(0,-0.3)$) node[midway,draw,fill=white,font=\small] {Bi-conjugacy $\biconj{\pfunc}(\pv,\bv) \leq \pfunc(\pv,\bv)$};
+        }
+        %
+        %
+        %
+        \onslide<+-> {
+            \node[font=\small] (issue) at ($(lbproblem.south)+(0,-0.1\textwidth)$) {\textbf{Bi-conjugate computation is also NP-hard}};
+            \draw[ultra thick,->] ($(lbproblem.south)+(0,-0.05)$) -- ($(issue.north)+(0,+0.1)$);
+            \node at ($(issue)+(0,-0.75)$) {
+                \includegraphics[width=20pt]{imgs/dizzy.png}
+            };
+        }
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[noframenumbering]{Graphical intuition}
+    \newcommand{\pointsize}{0.03}
+    \begin{tikzpicture}[
+        remember picture,
+        overlay,
+        domain=-0.8:0.8,
+    ]
+        \begin{scope}[shift={(2,0)},xscale=2.3,yscale=2.5]
+            \node (origin) at (0,0) {};
+            \draw[ultra thick,->] (-1,0) -- (1, 0);
+            \draw[ultra thick,->] (0,0) -- (0, 1);
+            \draw[ultra thick] (-0.03,0.2) -- (0.03,0.2);
+            \node[above right] at (0,0.2) {$\reg$};
+            \node[right] at (1,0) {$\pv$};
+            \node[above] at (0,1) {\small\textcolor{Teal}{$\pertfunc(\pv,\bv) \equiv$ Big-M}};
+            %
+            \draw[{Arc Barb[arc=130,reversed]}-,Teal,ultra thick] (-0.5,0.2) plot[domain=0.03:0.5] (\x,0.2);
+            \draw[-{Arc Barb[arc=130,reversed]},Teal,ultra thick] (-0.5,0.2) plot[domain=-0.5:-0.03] (\x,0.2) node {};
+            \fill[Teal] (0,0) circle (\pointsize);
+            \fill[Teal] (-0.5,0.2) circle (\pointsize);
+            \fill[Teal] (0.5,0.2) circle (\pointsize);
+            \draw[dashed,Teal,ultra thick] (0.5,0.2) -- (0.5,0.85);
+            \draw[dashed,Teal,thick] (-0.5,0.2) -- (-0.5,0.85);
+            %
+            %
+            %
+            \draw[ultra thick,densely dashed] (0, 0) -- (1, 0.4);
+            %
+            %
+            %
+            \draw[ultra thick] (0.5,-0.03) -- (0.5,0.03);
+            \node[below] at (0.5,0) {\small{$\pertlimit$}};
+            \draw[ultra thick,densely dashed] (0.5,0) -- (0.5,0.2);
+            \node[rotate=25,anchor=center] at (0.8,0.25) {\scriptsize{slope $\pertslope$}};
+            %
+            %
+            %
+            \draw[Brown,ultra thick] (0, 0) -- (0.5, 0.2);
+            \fill[Teal] (0,0) circle (\pointsize);
+            \fill[Teal] (0.5,0.2) circle (\pointsize);
+            %
+            %
+            %
+            \draw[dashed,Brown,ultra thick] (0.51,0.2) -- (0.51,0.85);
+            \fill[Teal] (0.5,0.2) circle (\pointsize);
+            %
+            %
+            %
+            \draw[Brown,ultra thick] (0, 0) -- (-0.5, 0.2);
+            \draw[dashed,Brown,ultra thick] (-0.51,0.2) -- (-0.51,0.85);
+            \draw[ultra thick] (-0.5,-0.03) -- (-0.5,0.03);
+            \node[below] at (-0.5,0) {\small{$-\pertlimit$}};
+            \fill[Teal] (0,0) circle (\pointsize);
+            \fill[Teal] (-0.5,0.2) circle (\pointsize);
+            %
+            %
+            %
+            \draw[ultra thick,<-,Brown] (-0.2,0.07) .. controls (-0.2,-0.15) .. (-0.05,-0.2) node[right] {\small\emphcolor{Brown}{$\biconj{\regfunc}(\pv)$}};
+        \end{scope}
+        %
+        %
+        %
+        \begin{scope}[shift={(8,0)},xscale=2.3,yscale=2.5]
+            \node (origin) at (0,0) {};
+            \draw[ultra thick,->] (-1,0) -- (1, 0);
+            \draw[ultra thick,->] (0,0) -- (0, 1);
+            \draw[ultra thick] (-0.03,0.2) -- (0.03,0.2);
+            \node[above right] at (0,0.2) {$\reg$};
+            \node[right] at (1,0) {$\pv$};
+            \node[above] at (0,1) {\small\textcolor{Teal}{$\pertfunc(\pv,\bv) \equiv$ L2-norm}};
+            \draw[{Arc Barb[arc=130,reversed]}-,Teal,ultra thick] (-0.5,0.2) plot[domain=0.03:0.8] (\x,0.2+\x^2);
+            \draw[-{Arc Barb[arc=130,reversed]},Teal,ultra thick] (-0.5,0.2) plot[domain=-0.8:-0.03] (\x,0.2-\x^2) node {};
+            \fill[Teal] (0,0) circle (\pointsize);
+            %
+            %
+            %
+            \draw[ultra thick,densely dashed] (0, 0) -- (1, 0.86);
+            %
+            %
+            %
+            \node[below] at (0.5,0) {\small{$\pertlimit$}};
+            \draw[ultra thick,densely dashed] (0.5,0) -- (0.5,0.42);
+            %
+            %
+            %
+            \node[rotate=45,anchor=center] at (0.28,0.17) {\scriptsize{slope $\pertslope$}};
+            %
+            %
+            %
+            \draw[Brown,ultra thick] (0, 0) -- (0.5, 0.43);
+            %
+            %
+            %
+            \draw[Brown,ultra thick] (0.5, 0.43) plot[domain=0.5:0.8] (\x,0.2+\x^2-0.02) node {};
+            %
+            %
+            %
+            \draw[Brown,ultra thick] (0, 0) -- (-0.5, 0.43);
+            \draw[Brown,ultra thick] (-0.5, 0.43) plot[domain=-0.8:-0.5] (\x,0.2-\x^2-0.02) node {};
+            \fill[Teal] (0,0) circle (\pointsize);
+            %
+            \draw[ultra thick] (-0.5,-0.03) -- (-0.5,0.03);
+            \node[below] at (-0.5,0) {\small{$-\pertlimit$}};
+            \draw[ultra thick] (0.5,-0.03) -- (0.5,0.03);
+            %
+            %
+            %
+            \draw[ultra thick,<-,Brown] (-0.2,0.14) .. controls (-0.2,-0.15) .. (-0.05,-0.2) node[right] {\small\emphcolor{Brown}{$\biconj{\regfunc}(\pv)$}};
+        \end{scope}
+        %
+        %
+        %
+        \node[text width=.5\textwidth] at ($(current page.north)+(0,-0.675\textwidth)$) (closedform) {
+            \begin{blockcolor}{black}{Bi-conjugate closed-form}
+                \small
+                \centering
+                $\biconj{\regfunc}(\pv) = 
+                \begin{cases}
+                    \emphcolor{Brown}{\pertslope}\abs{\pv} & \text{if} \ \abs{\pv} \leq \emphcolor{Brown}{\pertlimit} \\
+                    \reg + \pertfunc(\pv,1) & \text{otherwise}
+                \end{cases}$
+            \end{blockcolor}
+        };
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[noframenumbering]{Overview of numerical performances}
+    \begin{tikzpicture}[remember picture,overlay]
+        \node [text width=.425\textwidth] at ($(current page.north)+(0,-0.175\textheight)$) (problem) {
+            \begin{blockcolor}{black}{}
+                \centering
+                \small
+                $\min_{\pv} \ \lossfunc(\pv) + \reg \transp{\1}\bv + \pertfunc(\pv,\bv)$
+            \end{blockcolor}
+        };
+        %
+        %
+        %
+        \node [text width=.7\textwidth] at ($(current page.north)+(2.3,-0.34\textheight)$) (data) {
+          \begin{itemize}[nosep]
+            \item[\textbf{Dataset}] : Sparse regression
+            \item[\textbf{F($\cdot$)}] : Least-squares loss
+            \item[\textbf{H($\cdot,\cdot$)}] : \emphcolor{Brown}{L2-norm}
+            \item[$\boldsymbol{\lambda}$] : Set statistically
+          \end{itemize}
+        };
+        \begin{scope}[shift={(0.75,-3)}]
+        \begin{axis}[
+            mlineplot,
+            width = 0.6\textwidth,
+            height = 5cm,
+            xmode = log,
+            xmin = 0.05,
+            xmax = 5000,
+            ymax = 1.1,
+            xlabel = Time (seconds),
+            ylabel =  Prop. solved within 1h,
+            legend style={at={(1.03,0.5)},anchor=west}
+        ]
+
+        \addplot[ultra thick, smooth, color=RoyalBlue2] %
+        table[x=times,y=Scip,col sep=comma]{data/perfprofiles_medium_Leastsquares_BigmL2norm_3600.csv};
+        \addlegendentry{Scip};
+
+        \addplot[ultra thick, smooth, color=SkyBlue2] %
+        table[x=times,y=Cplex,col sep=comma]{data/perfprofiles_medium_Leastsquares_BigmL2norm_3600.csv};
+        \addlegendentry{Cplex};
+
+        \addplot[ultra thick, smooth, color=PaleGreen3] %
+        table[x=times,y=Mosek,col sep=comma]{data/perfprofiles_medium_Leastsquares_BigmL2norm_3600.csv};
+        \addlegendentry{Mosek};
+
+        \addplot[ultra thick, smooth, color=DarkGoldenrod1] %
+        table[x=times,y=L0Bnb,col sep=comma]{data/perfprofiles_medium_Leastsquares_BigmL2norm_3600.csv};
+        \addlegendentry{L0Bnb (Hazimeh et al., 2022)};
+
+        \addplot[ultra thick, smooth, color=Firebrick4] %
+        table[x=times,y=El0ps,col sep=comma]{data/perfprofiles_medium_Leastsquares_BigmL2norm_3600.csv};
+        \addlegendentry{El0ps (Guyard et al., 2023)};
+        \end{axis}
+        \end{scope}
+      \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[noframenumbering]{Overview of numerical performances}
+    \begin{tikzpicture}[remember picture,overlay]
+        \node [text width=.425\textwidth] at ($(current page.north)+(0,-0.175\textheight)$) (problem) {
+            \begin{blockcolor}{black}{}
+                \centering
+                \small
+                $\min_{\pv} \ \lossfunc(\pv) + \reg \transp{\1}\bv + \pertfunc(\pv,\bv)$
+            \end{blockcolor}
+        };
+        %
+        %
+        %
+        \node [text width=.7\textwidth] at ($(current page.north)+(2.3,-0.34\textheight)$) (data) {
+          \begin{itemize}[nosep]
+            \item[\textbf{Dataset}] : \emphcolor{Brown}{Sparse classification}
+            \item[\textbf{F($\cdot$)}] : \emphcolor{Brown}{Logistic loss}
+            \item[\textbf{H($\cdot,\cdot$)}] : L2-norm
+            \item[$\boldsymbol{\lambda}$] : Set statistically
+          \end{itemize}
+        };
+        \begin{scope}[shift={(0.75,-3)}]
+        \begin{axis}[
+            mlineplot,
+            width = 0.6\textwidth,
+            height = 5cm,
+            xmode = log,
+            xmin = 0.05,
+            xmax = 5000,
+            ymax = 1.1,
+            xlabel = Time (seconds),
+            ylabel = Prop. solved within 1h,
+            legend style={at={(1.03,0.5)},anchor=west}
+        ]
+
+        \addplot[ultra thick, smooth, color=PaleGreen3] %
+        table[x=times,y=Mosek,col sep=comma]{data/perfprofiles_medium_Logistic_Bigm_3600.csv};
+        \addlegendentry{Mosek};
+
+        \addplot[ultra thick, smooth, color=Firebrick4] %
+        table[x=times,y=El0ps,col sep=comma]{data/perfprofiles_medium_Logistic_Bigm_3600.csv};
+        \addlegendentry{El0ps (Guyard et al., 2023)};
+        \end{axis}
+        \end{scope}
+      \end{tikzpicture}
+\end{frame}

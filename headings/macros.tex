@@ -1,102 +1,174 @@
-% Objective values and functions
-\newcommand{\pobj}{p}
-\newcommand{\robj}{r}
-\newcommand{\dobj}{d}
+% Define new commands with 
+% - \newcommand{}[]{}
+% - \renewcommand{}[]{}
+% - \DeclareMathOperator{}{}
+
+% Maths objects fonts 
+\newcommand{\fontpb}[1]{\mathcal{#1}}
+\newcommand{\fontobj}[1]{#1}
+\newcommand{\fontset}[1]{\mathcal{#1}}
+\newcommand{\fontfunc}[1]{#1}
+\newcommand{\fontregion}[1]{\mathcal{#1}}
+
+% Sets
+\newcommand{\pset}{\fontset{X}}
+\newcommand{\dset}{\fontset{U}}
+
+% Problems
+\newcommand{\pbprimalletter}{\fontpb{P}}
+\newcommand{\pbrelaxletter}{\fontpb{R}}
+\newcommand{\pbheurletter}{\fontpb{H}}
+\newcommand{\pbdualletter}{\fontpb{D}}
+\newcommand{\ppb}{\pbprimalletter}
+\newcommand{\rpb}{\pbrelaxletter}
+\newcommand{\hpb}{\pbheurletter}
+\newcommand{\dpb}{\pbdualletter}
+
+% Objective values
+\newcommand{\objprimalletter}{\fontobj{p}}
+\newcommand{\objrelaxletter}{\fontobj{r}}
+\newcommand{\objdualletter}{\fontobj{d}}
+\newcommand{\pobj}{\objprimalletter}
+\newcommand{\robj}{\objrelaxletter}
+\newcommand{\hobj}{\UB{\objprimalletter}}
+\newcommand{\dobj}{\objdualletter}
+
+% Functions
+\newcommand{\funcprimalletter}{\fontfunc{P}}
+\newcommand{\funcdualletter}{\fontfunc{D}}
+\newcommand{\pfunc}{\funcprimalletter}
+\newcommand{\rfunc}{\LB{\funcprimalletter}}
+\newcommand{\hfunc}{\UB{\funcprimalletter}}
+\newcommand{\dfunc}{\funcdualletter}
 
 % Variables
 \newcommand{\pvletter}{x}
-\newcommand{\wvletter}{w}
-\newcommand{\dvletter}{u}
-\newcommand{\vvletter}{v}
 \newcommand{\bvletter}{z}
+\newcommand{\dvletter}{u}
+\newcommand{\cvletter}{c}
+\newcommand{\wvletter}{w}
+\newcommand{\lvletter}{\tilde{x}}
 \newcommand{\pv}{\mathbf{\pvletter}}
-\newcommand{\wv}{\mathbf{\wvletter}}
-\newcommand{\dv}{\mathbf{\dvletter}}
-\newcommand{\vv}{\mathbf{\vvletter}}
 \newcommand{\bv}{\mathbf{\bvletter}}
+\newcommand{\dv}{\mathbf{\dvletter}}
+\newcommand{\cv}{\mathbf{\cvletter}}
+\newcommand{\wv}{\mathbf{\wvletter}}
+\newcommand{\lv}{\mathbf{\lvletter}}
 \newcommand{\pvi}[1]{\pvletter_{#1}}
-\newcommand{\wvi}[1]{\wvletter_{#1}}
-\newcommand{\dvi}[1]{\dvletter_{#1}}
-\newcommand{\vvi}[1]{\vvletter_{#1}}
 \newcommand{\bvi}[1]{\bvletter_{#1}}
+\newcommand{\dvi}[1]{\dvletter_{#1}}
+\newcommand{\cvi}[1]{\cvletter_{#1}}
+\newcommand{\wvi}[1]{\wvletter_{#1}}
+\newcommand{\lvi}[1]{\lvletter_{#1}}
+
+% Optimizers
+\newcommand{\rpv}{\LB{\pv}}
+\newcommand{\rpvi}[1]{\LB{\pvletter}_#1}
 
 % Problem data
 \newcommand{\pdim}{n}
 \newcommand{\ddim}{m}
+\newcommand{\obsi}[1]{y_#1}
 \newcommand{\dic}{\mathbf{A}}
-\newcommand{\dici}[1]{\mathbf{a}_{#1}}
-\newcommand{\dicii}[1]{a_{#1}}
 \newcommand{\obs}{\mathbf{y}}
-\newcommand{\obsi}[1]{y_{#1}}
+\newcommand{\atom}[1]{\mathbf{a}_{#1}}
 \newcommand{\reg}{\lambda}
-\newcommand{\groundtruth}{\pv^{\dagger}}
-\newcommand{\lfunc}{f}
-\newcommand{\pfunc}{h}
-\newcommand{\rfunc}{g}
-\newcommand{\dfunc}{D}
-\newcommand{\relaxrfunc}{\tilde{g}}
-\newcommand{\relaxpfunc}{\tilde{h}}
+\newcommand{\regmax}{\reg_{\max}}
+\newcommand{\regmin}{\reg_{\min}}
+\newcommand{\lipschitz}{L}
+\newcommand{\lossfunc}{\fontfunc{F}}
+\newcommand{\regfunc}{\fontfunc{G}}
+\newcommand{\pertfunc}{\fontfunc{H}}
+\newcommand{\relaxregfunc}{\fontfunc{H}}
+\newcommand{\pivot}{\boldsymbol{\pi}}
+
+% Perturbation functions
+\newcommand{\regone}{\alpha}
+\newcommand{\regtwo}{\beta}
 \newcommand{\bigM}{M}
-\newcommand{\regtwo}{\alpha}
-\newcommand{\rslope}{\tau}
-\newcommand{\rlimit}{\mu}
-\newcommand{\noise}{\boldsymbol{\epsilon}}
+\newcommand{\pertslope}{\tau}
+\newcommand{\pertlimit}{\mu}
 
 % Indices
+\newcommand{\setidx}{\fontset{S}}
 \newcommand{\idxentry}{i}
+\newcommand{\idxentrynode}{i}
+\newcommand{\idxscreen}{i}
+\newcommand{\idxcd}{i}
 
-% BnB
-\newcommand{\pset}{\mathcal{X}}
-\newcommand{\setidx}{\mathcal{S}}
-\newcommand{\setzero}{\setidx_0}
-\newcommand{\setone}{\setidx_1}
-\newcommand{\setnone}{\setidx_\bullet}
+% Nodes
+\newcommand{\noneSymb}{\bullet}
+\newcommand{\oneSymb}{1}
+\newcommand{\zeroSymb}{0}
 \newcommand{\nodeSymb}{\nu}
-\newcommand{\node}[1]{#1^{\nodeSymb}}
+\newcommand{\setzero}{\setidx_{\zeroSymb}}
+\newcommand{\setone}{\setidx_{\oneSymb}}
+\newcommand{\setnone}{\setidx_{\noneSymb}}
+\newcommand{\subzero}[1]{#1_{\setzero}}
+\newcommand{\subone}[1]{#1_{\setone}}
+\newcommand{\subnone}[1]{#1_{\setnone}}
+\newcommand{\node}[1]{#1^\nodeSymb}
+\newcommand{\nodeSymbIter}[1]{N^{#1}}
 
-% Screening
-\newcommand{\saferegion}{\mathcal{R}}
-\newcommand{\safesphere}{\mathcal{S}}
+% CD
+\newcommand{\activeset}{\fontset{A}}
+\newcommand{\violationset}{\fontset{V}}
+
+% Accelerations
+\newcommand{\nodePlus}[2]{#1\cap#2}
+\newcommand{\nodePlusZero}[2]{\nodePlus{#1}{\{\pvi{#2}=0}\}}
+\newcommand{\nodePlusOne}[2]{\nodePlus{#1}{\{\pvi{#2}\neq0}\}}
+\newcommand{\saferegion}{\fontregion{R}}
+\newcommand{\safesphere}{\fontregion{S}}
 \newcommand{\spherecenter}{\mathbf{c}}
 \newcommand{\sphereradius}{r}
 
-% Peeling
-\newcommand{\bigL}{\boldsymbol{\alpha}}
-\newcommand{\bigU}{\boldsymbol{\beta}}
-\newcommand{\bigLi}[1]{\alpha_{#1}}
-\newcommand{\bigUi}[1]{\beta_{#1}}
+% Numerical results
+\newcommand{\groundtruth}{\pv^\dagger}
+\newcommand{\sparsitylevel}{k}
+\newcommand{\corrparam}{\rho}
+\newcommand{\corrmat}{\Sigma_\corrparam}
+\newcommand{\noise}{\boldsymbol{\epsilon}}
+\newcommand{\noisei}[1]{\epsilon_#1}
+\newcommand{\snr}{\tau}
+\newcommand{\spafactor}{\gamma}
+\newcommand{\dimfactor}{\kappa}
 
 % Math operators
-\DeclareMathOperator{\argmax}{argmax}
 \DeclareMathOperator{\argmin}{argmin}
-\DeclareMathOperator{\biconjugate}{biconj}
-\DeclareMathOperator{\card}{card}
-\DeclareMathOperator{\complset}{cmpl}
-\DeclareMathOperator{\convex}{cvx}
-\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\argmax}{argmax}
+\DeclareMathOperator{\clip}{clip}
+\DeclareMathOperator{\conv}{conv}
 \DeclareMathOperator{\dom}{dom}
-\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator{\gap}{gap}
 \DeclareMathOperator{\prox}{prox}
-\DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\sign}{sign}
-
-
-% Math misc
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\zer}{zer}
 \newcommand{\1}{\mathbf{1}}
 \newcommand{\0}{\mathbf{0}}
 \newcommand{\abs}[1]{|#1|}
-\newcommand{\biconj}[1]{#1^{**}}
+\newcommand{\plsc}{\Gamma}
+\newcommand{\plscp}{\Gamma_0}
+\newcommand{\bernoulli}{\mathcal{B}}
+\newcommand{\biconj}[1]{#1^{\star\star}}
 \newcommand{\bigO}{\mathcal{O}}
-\newcommand{\conj}[1]{#1^{*}}
-\newcommand{\icvx}{\eta}
-\newcommand{\intervint}[2]{[#1,#2]}
-\newcommand{\iter}[2]{#1^{#2}}
+\newcommand{\card}[1]{|#1|}
+\newcommand{\complset}[1]{#1^{\complement}}
+\newcommand{\conj}[1]{#1^{\star}}
+\newcommand{\grad}{\nabla}
+\newcommand{\Icvx}{\mathbb{I}}
+\newcommand{\Id}{\mathbf{I}}
+\newcommand{\intervint}[2]{\llbracket#1,#2\rrbracket}
+\newcommand{\iter}[2]{#1^{(#2)}}
+\newcommand{\LB}[1]{\tilde{#1}}
 \newcommand{\norm}[2]{\|#1\|_#2}
+\newcommand{\normal}{\mathcal{N}}
 \newcommand{\opt}[1]{#1^{\star}}
 \newcommand{\pospart}[1]{[#1]_+}
 \newcommand{\separable}[2]{#1_{#2}}
+\newcommand{\scalprod}[2]{\langle{#1,#2}\rangle}
 \newcommand{\subdiff}{\partial}
+\newcommand{\restrict}[2]{#1_{\setminus#2}}
 \newcommand{\transp}[1]{#1^{\mathrm{T}}}
-
-% Edition macros
-\newcommand{\AddTodo}[1]{\textcolor{red}{[#1]}}
+\newcommand{\UB}[1]{\bar{#1}}
