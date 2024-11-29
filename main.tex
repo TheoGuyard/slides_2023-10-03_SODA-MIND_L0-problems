@@ -1,0 +1,48 @@
+\documentclass[xcolor={x11names},10pt]{beamer}
+
+\usetheme{metropolis}
+\metroset{numbering=fraction}
+\metroset{block=fill}
+
+\newcommand{\backupbegin}{
+  \newcounter{finalframe}
+  \setcounter{finalframe}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+  \setcounter{framenumber}{\value{finalframe}}
+}
+
+\usepackage{headings/kmath}
+\input{headings/packages}
+\input{headings/macros}
+
+\newenvironment<>{blockcolor}[2]{%
+  \setbeamercolor{block title}{fg=#1,bg=#1!15}%
+  \setbeamercolor{block body}{fg=#1,bg=#1!15}%
+  \begin{block}#3{\centering#2}
+}{%
+  \end{block}
+}
+
+\definecolor{TolLightWhite}{HTML}{FAFAFA}
+\definecolor{TolLightOrange}{HTML}{ECA244}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \begin{center}
+    {\large\textbf{Slides Template}}
+  \end{center}
+  \begin{center}
+    Théo Guyard
+  \end{center}
+\end{frame}
+
+% Main slides
+
+% \backupbegin
+% Supplementary slides
+% \backupend
+
+
+\end{document}
